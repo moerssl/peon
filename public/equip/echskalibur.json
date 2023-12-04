@@ -1,0 +1,189 @@
+{
+  "HEAD": {
+    "name": "Krone der Obsidiangeheimnisse",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 444,
+      "display_string": "Gegenstandsstufe 444"
+    }
+  },
+  "NECK": {
+    "name": "Gletscherkalte Goldkette",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 450,
+      "display_string": "Gegenstandsstufe 450"
+    }
+  },
+  "SHOULDER": {
+    "name": "Flügelschlag der Obsidiangeheimnisse",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 441,
+      "display_string": "Gegenstandsstufe 441"
+    }
+  },
+  "SHIRT": {
+    "name": "Dunkellila Seidenhemd",
+    "quality": {
+      "type": "UNCOMMON",
+      "name": "Ungewöhnlich"
+    },
+    "level": {
+      "value": 1,
+      "display_string": "Gegenstandsstufe 1"
+    }
+  },
+  "CHEST": {
+    "name": "Brustplatte der Klippenherrin der Splitterflammen",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 441,
+      "display_string": "Gegenstandsstufe 441"
+    }
+  },
+  "WAIST": {
+    "name": "Taillenschutz des Wintersammlers",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 447,
+      "display_string": "Gegenstandsstufe 447"
+    }
+  },
+  "LEGS": {
+    "name": "Zeitlose Bundhosen des Weyrnhüters",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 463,
+      "display_string": "Gegenstandsstufe 463"
+    }
+  },
+  "FEET": {
+    "name": "Treter des sauren Hagels",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 459,
+      "display_string": "Gegenstandsstufe 459"
+    }
+  },
+  "WRIST": {
+    "name": "Manschetten des Wintersammlers",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 454,
+      "display_string": "Gegenstandsstufe 454"
+    }
+  },
+  "HANDS": {
+    "name": "Zeitlose Klauenschutze des Weyrnhüters",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 457,
+      "display_string": "Gegenstandsstufe 457"
+    }
+  },
+  "FINGER_1": {
+    "name": "Signet des letzten Ältesten",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 454,
+      "display_string": "Gegenstandsstufe 454"
+    }
+  },
+  "FINGER_2": {
+    "name": "Band der hartherzigen Vorherrschaft",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 450,
+      "display_string": "Gegenstandsstufe 450"
+    }
+  },
+  "TRINKET_1": {
+    "name": "Eingefangener Schrecken",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 460,
+      "display_string": "Gegenstandsstufe 460"
+    }
+  },
+  "TRINKET_2": {
+    "name": "Seestern",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 457,
+      "display_string": "Gegenstandsstufe 457"
+    }
+  },
+  "BACK": {
+    "name": "Umhang des Wintersammlers",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 460,
+      "display_string": "Gegenstandsstufe 460"
+    }
+  },
+  "MAIN_HAND": {
+    "name": "Die Ewige Hand",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 463,
+      "display_string": "Gegenstandsstufe 463"
+    }
+  },
+  "TABARD": {
+    "name": "Wappenrock der Drachenschuppenexpedition",
+    "quality": {
+      "type": "EPIC",
+      "name": "Episch"
+    },
+    "level": {
+      "value": 1,
+      "display_string": "Gegenstandsstufe 1"
+    }
+  }
+}
