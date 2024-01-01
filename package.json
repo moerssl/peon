@@ -23,7 +23,7 @@
     "@types/simple-oauth2": "^5.0.7",
     "axios": "^1.6.2",
     "blizzard.js": "^4.5.0",
-    "got": "^14.0.0",
+    "got": "^13.0.0",
     "jsdom": "^23.0.1",
     "localtunnel": "^2.0.2",
     "pinia": "^2.1.7",
