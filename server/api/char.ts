@@ -12,7 +12,8 @@ export default defineEventHandler(async (event) => {
       name: query.name?.toLowerCase() || "leyka", 
       realm: query.realm?.toLowerCase() || "ysera",
       region: query.region?.toLowerCase() || "eu",
-      namespace: "eu-profile" 
+      namespace: "eu-profile",
+      locale: "en_US" 
     })
   const profile = await peon.characterProfile({ 
     name: query.name?.toLowerCase() || "leyka", 

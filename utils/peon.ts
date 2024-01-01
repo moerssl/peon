@@ -10,7 +10,7 @@ export const usePeon = async () => {
       key: runtimeConfig.key,
       secret: runtimeConfig.secret,
       origin: 'eu', // optional
-      locale: 'de_DE', // optional
+      locale: 'en_US', // optional
       token: '', // optional
       
     })

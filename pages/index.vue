@@ -244,7 +244,7 @@ await loadBis()
             <hr class="ma-5" />
             <v-fade-transition  v-for="entry in slot" :key="entry.itemid">
               <v-sheet border rounded="lg" :class="{'bg-green-lighten-2': isWorn(entry)}" class="d-block pa-2 mb-2 ">
-                <a variant="plain" :href="entry.raw.item_link" target="_blank" class="d-block text-subtitle-1 title">{{ entry?.name }}</a>
+                <a variant="plain" :href="entry.raw.item_link" target="_blank" class="d-block text-subtitle-1 title">{{ entry?.raw.item }}</a>
                 <a variant="plain" :href="entry.raw.source_link" target="_blank" class="d-block text-subtitle-2 title">{{ entry?.raw?.source }}</a>
                 <p>{{ entry?.raw?.slot_tier }}</p>
               

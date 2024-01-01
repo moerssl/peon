@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@types/jsdom": "^21.1.6",
     "nuxt": "^3.8.2",
     "vite-plugin-vuetify": "^1.0.2",
     "vue": "^3.3.8",
@@ -22,6 +23,8 @@
     "@types/simple-oauth2": "^5.0.7",
     "axios": "^1.6.2",
     "blizzard.js": "^4.5.0",
+    "got": "^14.0.0",
+    "jsdom": "^23.0.1",
     "localtunnel": "^2.0.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",

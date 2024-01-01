@@ -1,16 +1,46 @@
 import puppeteer from 'puppeteer'
+import { saveJson, readJson } from '~/utils/storage';
+import { useBrowser } from '~/utils/browser';
+
 
 
 
 export default defineEventHandler(async (event) => {
+  let res = event.res
+  const year = 31536000
+  const maxage = 60 * 60 * 24
+  const url = event.req.url
+ 
+  res.setHeader('Cache-Control', `max-age=${maxage} s-maxage=${maxage}`);
+
+
+
+
+
+
     const query = getQuery(event)
 
-    const playedClass = query.playedclass.toLowerCase().replace(" ", "-")
-    const spec = query.spec.toLowerCase().replace("%20", "-")
+    const playedClass = query.playedclass.toLowerCase().replace(" ", "-").replace("%20", "-")
+    const spec = query.spec.toLowerCase().replace("%20", "-").replace(" ", "-")
+
+    const jsonFileName = `${playedClass}_${spec}.json`
+    const storedBisGear = await readJson(jsonFileName)
+
+    if (storedBisGear != undefined) {
+      return storedBisGear;
+    }
+
+    console.log(jsonFileName, "not found, request wowhead")
+    console.log("----")
+    console.log(storedBisGear)
+    console.log("----")
     
+
     // Launch a headless browser
-    const browser = await puppeteer.launch({headless: "new"});
+    const browser = await puppeteer.launch({headless: "new", args: ['--lang=en-US,en']});
     const page = await browser.newPage();
+
+ 
   
     // Load the target website
     await page.goto(`https://www.wowhead.com/guide/classes/${playedClass}/${spec}/bis-gear`, { waitUntil: 'networkidle0' });
@@ -75,6 +105,7 @@ export default defineEventHandler(async (event) => {
  
     // Close the browser when done
     await browser.close();
+    saveJson(gear, jsonFileName)
     return gear;
   //})();
   
