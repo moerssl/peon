@@ -93,7 +93,7 @@ const loadBis = async (playedClass, spec) => {
 
       clearGear(skelleton)
       // const bis = await useFetch(`/api/bis?playedclass=${playedClass.replace(" ", "-")}&spec=${spec.replace(" ", "-")}`)
-      const bis = await useFetch(`/gear/${playedClass.replace(" ", "-")}_${spec.replace(" ", "-")}.json`)
+      const bis = await useFetch(`/gear/${playedClass.lower().replace(" ", "-")}_${spec.lower().replace(" ", "-")}.json`)
 
       bisGear.value = bis.data
       bis.data.value?.map(async gearItem => mapGear(gearItem, skelleton))
