@@ -92,7 +92,9 @@ const loadBis = async (playedClass, spec) => {
       progessStep.value = "Vergleiche mit wowhead-BiS-Gear"
 
       clearGear(skelleton)
-      const bis = await useFetch(`/api/bis?playedclass=${playedClass.replace(" ", "-")}&spec=${spec.replace(" ", "-")}`)
+      // const bis = await useFetch(`/api/bis?playedclass=${playedClass.replace(" ", "-")}&spec=${spec.replace(" ", "-")}`)
+      const bis = await useFetch(`/gear/${playedClass.replace(" ", "-")}_${spec.replace(" ", "-")}.json`)
+
       bisGear.value = bis.data
       bis.data.value?.map(async gearItem => mapGear(gearItem, skelleton))
   } finally {
