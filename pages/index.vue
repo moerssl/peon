@@ -194,28 +194,28 @@ await loadBis()
 
 
     <v-row>
-      <v-col cols="4">
+      <v-col cols="12" lg="4">
         <h1>{{ charProfile?.name }} ({{ charProfile.average_item_level }})</h1>
         <h2>{{ charProfile?.character_class?.name }} {{ charProfile?.active_spec?.name }}</h2>
       </v-col>
-      <v-col class=" text-center">
+      <v-col cols="12" lg="auto" class=" text-center" >
         <div class="pa-5" v-if="fetching">
           <v-icon icon="mdi-account-convert" size="large"></v-icon><br>
           {{ progessStep}}
 
         </div>
       </v-col>
-      <v-col cols="1">
+      <v-col cols="6" lg="1">
         <v-text-field v-model="realm" siz></v-text-field>
         
       </v-col>
-      <v-col  cols="1">
+      <v-col  cols="6" lg="1">
         <v-text-field v-model="charName"></v-text-field>
 
       </v-col>
 
-      <v-col cols="auto">
-        <v-btn @click="reloadEquipmentJson" class="mt-2" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Load Equipment</v-btn>
+      <v-col cols="12" lg="auto" class="d-flex text-center">
+        <v-btn @click="reloadEquipmentJson" class="mt-lg-2" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Load Equipment</v-btn>
 
       </v-col>
 
@@ -226,7 +226,7 @@ await loadBis()
     
     <v-row>
 
-      <v-col cols="2" v-for="slot, name in displaySkeletton" >
+      <v-col cols="12" lg="2" v-for="slot, name in displaySkeletton" >
         <v-card>
           <v-card-title>{{ name }} <span v-if="char[name]">({{ char[name]?.level.value }})</span></v-card-title>
           <v-card-text>
