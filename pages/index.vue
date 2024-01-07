@@ -65,18 +65,21 @@ const skelleton = ref({
   "FEET": [],
   "WRIST": [],
   "HANDS": [],
-  "FINGER": [],
   "FINGER_1": [],
   "FINGER_2": [],
   "TRINKET_1": [],
   "TRINKET_2": [],
   "BACK": [],
   "MAIN_HAND": [],
+  "WEAPON": [],
+  "TWOHWEAPON": [],
+  "HOLDABLE": [],
   "TABARD": [],
+  "FINGER": [],
   "TRINKET": [],
 
 })
-const keysToExclude = ["FINGER_1", "FINGER_2", "TRINKET_1", "TRINKET_2", "CLOAK", "ROBE", "HAND"]
+const keysToExclude = ["FINGER_1", "FINGER_2", "TRINKET_1", "TRINKET_2", "CLOAK", "ROBE", "HAND", "SHIRT", "TABARD"]
 const displaySkeletton = computed(() => {
   return Object.entries(skelleton.value).reduce((acc, [key, value]) => {
   if (!keysToExclude.includes(key)) {
@@ -122,6 +125,7 @@ const reloadEquipmentJson = async() => {
           'quality': item?.quality,
           'level': item?.level,
           'id': item?.item?.id,
+          'upgrade': item?.upgrade
     
         }
         eqJson.value[item.slot?.type] = stuff
@@ -183,6 +187,19 @@ const isBis = (entry) => {
   }) > -1
 }
 
+const hasBis = (equiped) => {
+  
+  if (equiped == undefined) return
+  const potentialBis = Object.values(skelleton.value) || []
+  const flatBis = potentialBis.flat()
+  const index = flatBis.findIndex(item => {
+    
+    return item.id == equiped.id
+  })
+
+  return index > -1 ? "#00cc0033" : ""
+}
+
 /*
 await reloadEquipmentJson()
 await loadBis()
@@ -198,7 +215,7 @@ await loadBis()
         <h1>{{ charProfile?.name }} ({{ charProfile.average_item_level }})</h1>
         <h2>{{ charProfile?.character_class?.name }} {{ charProfile?.active_spec?.name }}</h2>
       </v-col>
-      <v-col cols="12" lg="auto" class=" text-center" >
+      <v-col cols="12" lg="4" class=" text-center" >
         <div class="pa-5" v-if="fetching">
           <v-icon icon="mdi-account-convert" size="large"></v-icon><br>
           {{ progessStep}}
@@ -206,16 +223,16 @@ await loadBis()
         </div>
       </v-col>
       <v-col cols="6" lg="1">
-        <v-text-field v-model="realm" siz></v-text-field>
+        <v-text-field v-model="realm" @keyup.enter="reloadEquipmentJson"></v-text-field>
         
       </v-col>
       <v-col  cols="6" lg="1">
-        <v-text-field v-model="charName"></v-text-field>
+        <v-text-field v-model="charName" @keyup.enter="reloadEquipmentJson"></v-text-field>
 
       </v-col>
 
-      <v-col cols="12" lg="auto" class="d-flex text-center">
-        <v-btn @click="reloadEquipmentJson" class="mt-lg-2" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Load Equipment</v-btn>
+      <v-col cols="12" lg="2" class="d-flex text-center">
+        <v-btn @click="reloadEquipmentJson" class="mt-lg-2 w-full" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Load Equipment</v-btn>
 
       </v-col>
 
@@ -227,24 +244,52 @@ await loadBis()
     <v-row>
 
       <v-col cols="12" lg="2" v-for="slot, name in displaySkeletton" >
-        <v-card>
+        <v-card :color="hasBis(char[name])">
           <v-card-title>{{ name }} <span v-if="char[name]">({{ char[name]?.level.value }})</span></v-card-title>
           <v-card-text>
             <hr class="ma-5" />
 
             <p v-if="char[name]">
-              {{ char[name]?.name }} ({{ char[name]?.level.value }})
+              {{ char[name]?.name }} ({{ char[name]?.level.value }})<br>
+              <i v-if="char[name]?.upgrade">
+                {{ char[name]?.upgrade.name }} {{  char[name]?.upgrade.level }} / {{ char[name]?.upgrade.max }} 
+                <br>
+              </i>
             </p>
             <p v-else-if="name == 'FINGER'">
               {{ char['FINGER_1']?.name }} ({{ char['FINGER_1']?.level.value }})<br >
-              {{ char['FINGER_2']?.name }} ({{ char['FINGER_2']?.level.value }})
+              <i v-if="char['FINGER_1']?.upgrade">
+                {{ char['FINGER_1']?.upgrade.name }} {{  char['FINGER_1']?.upgrade.level }} / {{ char['FINGER_1']?.upgrade.max }} 
+                <br>
+              </i>
+              {{ char['FINGER_2']?.name }} ({{ char['FINGER_2']?.level.value }})<br>
+              <i v-if="char['FINGER_2']?.upgrade">
+                {{ char['FINGER_2']?.upgrade.name }} {{  char['FINGER_2']?.upgrade.level }} / {{ char['FINGER_2']?.upgrade.max }} 
+                <br>
+              </i>
             </p>
             <p v-else-if="name == 'TRINKET'">
               {{ char['TRINKET_1']?.name }} ({{ char['TRINKET_1']?.level.value }})<br>
-              {{ char['TRINKET_2']?.name }} ({{ char['TRINKET_2']?.level.value }})
+              <i v-if="char['TRINKET_1']?.upgrade">
+                {{ char['TRINKET_1']?.upgrade.name }} {{  char['TRINKET_1']?.upgrade.level }} / {{ char['TRINKET_1']?.upgrade.max }} 
+                <br>
+              </i>
+              {{ char['TRINKET_2']?.name }} ({{ char['TRINKET_2']?.level.value }})<br>
+              <i v-if="char['TRINKET_2']?.upgrade">
+                {{ char['TRINKET_2']?.upgrade.name }} {{  char['TRINKET_2']?.upgrade.level }} / {{ char['TRINKET_2']?.upgrade.max }} 
+
+              </i>
             </p>
             <hr class="ma-5" />
             <v-fade-transition  v-for="entry in slot" :key="entry.itemid">
+              <v-sheet border rounded="lg" :class="{'bg-green-lighten-2': isWorn(entry)}" class="d-block pa-2 mb-2 ">
+                <a variant="plain" :href="entry.raw.item_link" target="_blank" class="d-block text-subtitle-1 title">{{ entry?.raw.item }}</a>
+                <a variant="plain" :href="entry.raw.source_link" target="_blank" class="d-block text-subtitle-2 title">{{ entry?.raw?.source }}</a>
+                <p>{{ entry?.raw?.slot_tier }}</p>
+              
+              </v-sheet>  
+            </v-fade-transition>
+            <v-fade-transition  v-for="entry in displaySkeletton['WEAPON']" :key="entry.itemid" v-if="name == 'MAIN_HAND'">
               <v-sheet border rounded="lg" :class="{'bg-green-lighten-2': isWorn(entry)}" class="d-block pa-2 mb-2 ">
                 <a variant="plain" :href="entry.raw.item_link" target="_blank" class="d-block text-subtitle-1 title">{{ entry?.raw.item }}</a>
                 <a variant="plain" :href="entry.raw.source_link" target="_blank" class="d-block text-subtitle-2 title">{{ entry?.raw?.source }}</a>
@@ -303,10 +348,7 @@ await loadBis()
 
 
     <h2> {{ char?.character?.name }}</h2>
-    <pre>
-      
-
-    </pre>
+ 
     <!-- v-row v-for="item in char?.equipped_items">
 
       <v-col cols="2">{{ item?.slot?.type }} | {{ item?.slot?.name }} | {{ item?.item.id }}</v-col>
