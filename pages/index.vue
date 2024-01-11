@@ -1,4 +1,12 @@
 <script setup >
+import { useTheme } from 'vuetify'
+
+const theme = useTheme()
+
+const toggleTheme = () => {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
+
 const charName = ref("Echskalibur")
 const realm = ref("Malorne")
 
@@ -108,7 +116,7 @@ const loadBis = async (playedClass, spec) => {
 
 }
 
-const charProfile = ref({})
+const charProfile = ref()
 const eqJson = ref({})
 const fetching = ref(false)
 const progessStep = ref("")
@@ -207,41 +215,51 @@ await loadBis()
 </script>
 
 <template>
-  <div>
+  <v-container>
 
-
-    <v-row>
+    <v-row class="mt-5 ">
       <v-col cols="12" lg="4">
-        <h1>{{ charProfile?.name }} ({{ charProfile.average_item_level }})</h1>
-        <h2>{{ charProfile?.character_class?.name }} {{ charProfile?.active_spec?.name }}</h2>
+        
+        <h1 v-if="charProfile != undefined">{{ charProfile?.name }} ({{ charProfile.average_item_level }})</h1>
+        <h1 v-else>Peon (1)</h1>
+        <h2 v-if="charProfile">{{ charProfile?.character_class?.name }} {{ charProfile?.active_spec?.name }}</h2>
+        <h2 v-else>BiS Gear Checker </h2>
       </v-col>
-      <v-col cols="12" lg="4" class=" text-center" >
-        <div class="pa-5" v-if="fetching">
+
+      <v-col cols="12" lg="4" class="mt-5 text-center" >
+        <div  v-if="fetching">
           <v-icon icon="mdi-account-convert" size="large"></v-icon><br>
           {{ progessStep}}
-
+        </div>
+        <div v-else >
+          
         </div>
       </v-col>
-      <v-col cols="6" lg="1">
-        <v-text-field v-model="realm" @keyup.enter="reloadEquipmentJson"></v-text-field>
+      <v-col cols="12" lg="4" class="d-flex">
+        <v-row>
         
+          <v-col cols="6" lg="3" class="">
+            <v-text-field v-model="realm" label="Realm" @keyup.enter="reloadEquipmentJson"></v-text-field>
+            
+          </v-col>
+          <v-col  cols="6" lg="3">
+            <v-text-field v-model="charName" label="Name" @keyup.enter="reloadEquipmentJson"></v-text-field>
+
+          </v-col>
+
+          <v-col cols="12" lg="6" class="d-flex text-center text-lg-right">
+            <v-btn @click="reloadEquipmentJson" class="mt-lg-2 w-full" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Load Equipment</v-btn>
+            <v-btn @click="toggleTheme" class="mt-lg-2 ml-2">toggle theme</v-btn>
+          </v-col>
+        </v-row>
       </v-col>
-      <v-col  cols="6" lg="1">
-        <v-text-field v-model="charName" @keyup.enter="reloadEquipmentJson"></v-text-field>
-
-      </v-col>
-
-      <v-col cols="12" lg="2" class="d-flex text-center">
-        <v-btn @click="reloadEquipmentJson" class="mt-lg-2 w-full" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Load Equipment</v-btn>
-
-      </v-col>
-
     </v-row>
+
     <!-- v-btn @click="loadBis">Load BiS</v-btn -->
 
    
     
-    <v-row>
+    <v-row v-if="charProfile != undefined">
 
       <v-col cols="12" lg="2" v-for="slot, name in displaySkeletton" >
         <v-card :color="hasBis(char[name])">
@@ -282,7 +300,7 @@ await loadBis()
             </p>
             <hr class="ma-5" />
             <v-fade-transition  v-for="entry in slot" :key="entry.itemid">
-              <v-sheet border rounded="lg" :class="{'bg-green-lighten-2': isWorn(entry)}" class="d-block pa-2 mb-2 ">
+              <v-sheet border rounded="lg" :class="{'bg-green-lighten-2 equiped': isWorn(entry)}" class="d-block pa-2 mb-2 ">
                 <a variant="plain" :href="entry.raw.item_link" target="_blank" class="d-block text-subtitle-1 title">{{ entry?.raw.item }}</a>
                 <a variant="plain" :href="entry.raw.source_link" target="_blank" class="d-block text-subtitle-2 title">{{ entry?.raw?.source }}</a>
                 <p>{{ entry?.raw?.slot_tier }}</p>
@@ -290,8 +308,8 @@ await loadBis()
               </v-sheet>  
             </v-fade-transition>
             <v-fade-transition  v-for="entry in displaySkeletton['WEAPON']" :key="entry.itemid" v-if="name == 'MAIN_HAND'">
-              <v-sheet border rounded="lg" :class="{'bg-green-lighten-2': isWorn(entry)}" class="d-block pa-2 mb-2 ">
-                <a variant="plain" :href="entry.raw.item_link" target="_blank" class="d-block text-subtitle-1 title">{{ entry?.raw.item }}</a>
+              <v-sheet border rounded="lg" :class="{'bg-green-lighten-2  equiped': isWorn(entry)}" class="d-block pa-2 mb-2 ">
+                <a variant="plain" :href="entry.raw.item_link" target="_blank" class="d-block text-subtitle-1 title ">{{ entry?.raw.item }}</a>
                 <a variant="plain" :href="entry.raw.source_link" target="_blank" class="d-block text-subtitle-2 title">{{ entry?.raw?.source }}</a>
                 <p>{{ entry?.raw?.slot_tier }}</p>
               
@@ -360,12 +378,23 @@ await loadBis()
 
     </v-row -->
 
-  </div>
+  </v-container>
 </template>
-<style scoped>
+<style scoped lang="scss">
+
   .title {
     word-wrap: break-word;
     color: #333;
     text-decoration: none;  
+    .equiped & {
+      color: #333 !important;
+    }
+    .v-theme--dark & {
+      color: #ddd;
+    }
   }
+
+  
+  
+  
 </style>
