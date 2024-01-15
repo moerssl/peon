@@ -10,6 +10,8 @@ export default defineEventHandler(async (event) => {
   const year = 31536000
   const maxage = 60 * 60 * 24
   const url = event.req.url
+  const lang = "--lang=en-US,en"
+  // const lang = "--lang=de-DE,de"
  
   res.setHeader('Cache-Control', `max-age=${maxage} s-maxage=${maxage}`);
 
@@ -37,7 +39,7 @@ export default defineEventHandler(async (event) => {
     
 
     // Launch a headless browser
-    const browser = await puppeteer.launch({headless: "new", args: ['--lang=en-US,en']});
+    const browser = await puppeteer.launch({headless: "new", args: [lang]});
     const page = await browser.newPage();
 
  

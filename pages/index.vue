@@ -1,11 +1,5 @@
 <script setup >
-import { useTheme } from 'vuetify'
 
-const theme = useTheme()
-
-const toggleTheme = () => {
-  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
-}
 
 const charName = ref("Echskalibur")
 const realm = ref("Malorne")
@@ -215,18 +209,15 @@ await loadBis()
 </script>
 
 <template>
-  <v-container>
 
     <v-row class="mt-5 ">
-      <v-col cols="12" lg="4">
+      <v-col cols="12" lg="3">
         
-        <h1 v-if="charProfile != undefined">{{ charProfile?.name }} ({{ charProfile.average_item_level }})</h1>
-        <h1 v-else>Peon (1)</h1>
-        <h2 v-if="charProfile">{{ charProfile?.character_class?.name }} {{ charProfile?.active_spec?.name }}</h2>
-        <h2 v-else>BiS Gear Checker </h2>
+        <h2 v-if="charProfile != undefined">{{ charProfile?.name }} ({{ charProfile.average_item_level }})</h2>
+        <h3 v-if="charProfile">{{ charProfile?.character_class?.name }} {{ charProfile?.active_spec?.name }}</h3>
       </v-col>
 
-      <v-col cols="12" lg="4" class="mt-5 text-center" >
+      <v-col cols="12" lg="3" class="mt-5 text-center" >
         <div  v-if="fetching">
           <v-icon icon="mdi-account-convert" size="large"></v-icon><br>
           {{ progessStep}}
@@ -235,8 +226,8 @@ await loadBis()
           
         </div>
       </v-col>
-      <v-col cols="12" lg="4" class="d-flex">
-        <v-row>
+      <v-col cols="12" lg="6" class="d-flex ">
+        <v-row class="float-right">
         
           <v-col cols="6" lg="3" class="">
             <v-text-field v-model="realm" label="Realm" @keyup.enter="reloadEquipmentJson"></v-text-field>
@@ -247,9 +238,8 @@ await loadBis()
 
           </v-col>
 
-          <v-col cols="12" lg="6" class="d-flex text-center text-lg-right">
+          <v-col cols="12" lg="auto" class="d-flex text-center text-lg-right">
             <v-btn @click="reloadEquipmentJson" class="mt-lg-2 w-full" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Load Equipment</v-btn>
-            <v-btn @click="toggleTheme" class="mt-lg-2 ml-2">toggle theme</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -378,7 +368,6 @@ await loadBis()
 
     </v-row -->
 
-  </v-container>
 </template>
 <style scoped lang="scss">
 
