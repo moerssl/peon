@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <v-row>
       <v-col>
         <v-text-field label="realm" v-model="realm"></v-text-field>
@@ -12,25 +11,35 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="6" lg="2" v-for="value, key in dungeons">
-          <h3>{{ value.name }} ({{ value.mythic_plus_scores_by_season[0].scores.all }})</h3>
-          <table>
-            <tr v-for="run in value.mythic_plus_weekly_highest_level_runs">
-              <td>
-                {{ run.short_name }}
-              </td>
-              <td>
-                {{ run.mythic_level }}
-              </td>
-              <td>
-                +{{ run.num_keystone_upgrades }}
-              </td>
-            </tr>
-          </table>
+      <v-col cols="6" lg="2" v-for="(value, key) in dungeons">
+        <v-card class="pa-2">
+          <v-card-title>
+            {{ value.name }} ({{ value.mythic_plus_scores_by_season[0].scores.all }})
+            
+          </v-card-title>
+          <v-card-text>
+            <table>
+              <tr v-for="run in value.mythic_plus_weekly_highest_level_runs">
+                <td>
+                  {{ run.short_name }}
+                </td>
+                <td>
+                  {{ run.mythic_level }}
+                </td>
+                <td>
+                  +{{ run.num_keystone_upgrades }}
+                </td>
+              </tr>
+            </table>
+            <v-card-actions class="float-right">
+              <v-btn icon="mdi-trash-can-outline" variant="plain" @click="remove(value, key)"></v-btn>
+            </v-card-actions>
+          </v-card-text>
+        </v-card>
+
           
       </v-col>
     </v-row>
-  </v-container>
 </template>
 <script setup>
 const STORAGE_KEY ="dungeon-chars"
@@ -44,6 +53,8 @@ const loadRuns = async char => {
   const data = await $fetch(`/api/dungeons?name=${char.name}&realm=${char.realm}`)
   dungeons.value[slug] = data
 }
+
+
 
 chars.value?.map(loadRuns)
 
@@ -64,6 +75,44 @@ const add = () => {
 
   loadRuns(char)
 
+  setItem(STORAGE_KEY, chars.value)
+}
+
+const remove = (runToRemove, slugToRemove) => {
+
+
+  console.log("remove wirked", slugToRemove, runToRemove)
+  const removeName = runToRemove.name.toLowerCase()
+  const removeRealm = runToRemove.realm.toLowerCase()
+
+  delete dungeons.value[slugToRemove]
+
+  // dungeons.value[slugToRemove] = undefined
+
+
+  const index = chars.value.findIndex(character => {
+    
+    const charName = character.name.toLowerCase()
+    const charRealm = character.realm.toLowerCase()
+
+    console.log(removeName, removeRealm, charName, charRealm)
+
+    return removeName == charName
+  } )
+  /*
+  const filtered = chars.value.filter(character => {
+    
+    const charName = character.name.toLowerCase()
+    const charRealm = character.realm.toLowerCase()
+
+    console.log(removeName, removeRealm, charName, charRealm)
+
+    return removeName != charName
+  })
+  */
+
+  console.log(index)
+  chars.value.splice(index,1)
   setItem(STORAGE_KEY, chars.value)
 }
 

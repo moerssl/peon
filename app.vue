@@ -1,9 +1,11 @@
 <template>
-  <NuxtLayout>
-    <v-app>
+  <NuxtLayout >
+    <v-app >
+      <PeonHeader></PeonHeader>
       <v-container>
-        <PeonHeader></PeonHeader>
-        <NuxtPage />
+        <main>
+          <NuxtPage />
+        </main>
         
       </v-container>
     </v-app>
