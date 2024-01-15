@@ -23,7 +23,7 @@
                 <td>
                   {{ run.short_name }}
                 </td>
-                <td>
+                <td class="text-right">
                   {{ run.mythic_level }}
                 </td>
                 <td>
