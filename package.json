@@ -31,6 +31,7 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
     "puppeteer": "^21.5.2",
-    "simple-oauth2": "^5.0.0"
+    "simple-oauth2": "^5.0.0",
+    "vuedraggable": "^4.1.0"
   }
 }
