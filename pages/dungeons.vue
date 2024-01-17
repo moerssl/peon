@@ -26,11 +26,11 @@
   
               {{ element.name }} 
               
-              <v-icon  class="text-subtitle-1" icon="mdi-treasure-chest-outline" v-if="element.runs.mythic_plus_previous_weekly_highest_level_runs?.length > 0"></v-icon>
+              <v-icon  class="text-subtitle-1" icon="mdi-treasure-chest-outline" v-if="element?.runs?.mythic_plus_previous_weekly_highest_level_runs?.length > 0"></v-icon>
               <span class="text-subtitle-2" v-if="element?.runs">&nbsp;({{ element.runs.mythic_plus_scores_by_season[0].scores.all }})</span>
 
           </v-card-title>
-            <v-card-text v-if="element.runs">
+            <v-card-text v-if="element.runs != undefined && element.runs.mythic_plus_weekly_highest_level_runs != undefined">
               <table>
                 <tr v-for="run in element.runs.mythic_plus_weekly_highest_level_runs">
                   <td>
@@ -67,6 +67,8 @@ const chars = ref(getItem(STORAGE_KEY))
 const dungeons = ref({})
 
 const loadRuns = async char => {
+  if (char.realm == undefined || char.name == undefined) return
+
   const slug = `${char.realm}-${char.name}`;
   const data = await $fetch(`/api/dungeons?name=${char.name}&realm=${char.realm}`)
   dungeons.value[slug] = data
@@ -88,10 +90,7 @@ const add = () => {
     "name": name.value
   }
 
-  chars.value.push({
-    "realm": realm.value,
-    "name": name.value
-  })
+  chars.value.push(char)
 
   loadRuns(char)
 

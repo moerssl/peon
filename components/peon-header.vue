@@ -7,7 +7,7 @@
           <h1>Peon</h1>
           <h2>Multiple chars made easy </h2>
         </v-col>
-        <spacer></spacer>
+        <v-spacer></v-spacer>
         <v-col class="text-right">
           <NuxtLink to="/"> Gear </NuxtLink>
           <NuxtLink class="ml-5" to="/dungeons"> Dungeons </NuxtLink>
