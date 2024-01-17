@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     name: query.name?.toLowerCase() || "leyka", 
     realm: query.realm?.toLowerCase() || "ysera",
     region: query.region?.toLowerCase() || "eu",
-    fields: 'mythic_plus_weekly_highest_level_runs,mythic_plus_scores_by_season:current'
+    fields: 'mythic_plus_weekly_highest_level_runs,mythic_plus_scores_by_season:current,mythic_plus_previous_weekly_highest_level_runs'
 
   }
 

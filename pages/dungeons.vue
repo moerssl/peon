@@ -24,9 +24,12 @@
           <v-card class="pa-2">
             <v-card-title>
   
-              {{ element.name }} <span v-if="element?.runs">({{ element.runs.mythic_plus_scores_by_season[0].scores.all }})</span>
+              {{ element.name }} 
               
-            </v-card-title>
+              <v-icon  class="text-subtitle-1" icon="mdi-treasure-chest-outline" v-if="element.runs.mythic_plus_previous_weekly_highest_level_runs?.length > 0"></v-icon>
+              <span class="text-subtitle-2" v-if="element?.runs">&nbsp;({{ element.runs.mythic_plus_scores_by_season[0].scores.all }})</span>
+
+          </v-card-title>
             <v-card-text v-if="element.runs">
               <table>
                 <tr v-for="run in element.runs.mythic_plus_weekly_highest_level_runs">
