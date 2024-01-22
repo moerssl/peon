@@ -21,6 +21,7 @@
         </v-col>
         <v-col  class="mt-2">
           <v-btn @click="add">Hinzufügen</v-btn>
+          <v-btn @click="loadAll" class="ml-5">Aktualisieren</v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -114,7 +115,12 @@ if (periods.value == null || new Date(euCurrentPeriod.value.end) < new Date()) {
   periods.value = (await $fetch('/api/periods')).periods;
   setItem(PERIODS_KEY, periods.value)
 }
-chars.value?.map(loadRuns)
+
+const loadAll = () => {
+  chars.value?.map(loadRuns)
+}
+
+loadAll();
 
 
 
