@@ -89,6 +89,10 @@ const chars = ref(getItem(STORAGE_KEY))
 const periods = ref(getItem(PERIODS_KEY))
 const dungeons = ref({})
 
+const save = () => {
+  setItem(STORAGE_KEY, chars.value)
+}
+
 const euCurrentPeriod = computed(() => {
   if (periods.value == null) return null;
 
@@ -146,10 +150,7 @@ const add = async () => {
 
 }
 
-const save = () => {
-  setItem(STORAGE_KEY, chars.value)
 
-}
 
 const remove = (runToRemove, slugToRemove) => {
 
