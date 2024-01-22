@@ -31,32 +31,39 @@
       item-key="name"
       class="v-row"
       @end="save"
+      
       >
       <template #item="{element}">
-        <v-col cols="6" lg="2" ><!-- /v-col>v-for="value in chars" -->
+       
+
+        <v-col cols="12" :lg="element.showMore ? 3 : 2"  @click="element.showMore = !element.showMore; save()" ><!-- /v-col>v-for="value in chars" -->
           <v-card class="pa-2">
             <v-card-title>
   
-              {{ element.name }} 
+              {{ element.name }}
               
               <v-icon @click="dismissVault(element)" class="text-subtitle-1" icon="mdi-treasure-chest-outline" v-if="element?.runs?.mythic_plus_previous_weekly_highest_level_runs?.length > 0 && element?.vaultDismissedForPeriod != euCurrentPeriod.period"></v-icon>
               <span class="text-subtitle-2" v-if="element?.runs">&nbsp;({{ element.runs.mythic_plus_scores_by_season[0].scores.all }})</span>
+              <v-icon :icon="element.showMore ? 'mdi-chevron-down' : 'mdi-chevron-left'" class="float-right mt-2" size="small"></v-icon>
           </v-card-title>
             <v-card-text v-if="element.runs != undefined && element.runs.mythic_plus_weekly_highest_level_runs != undefined">
-              <table>
-                <tr v-for="run in element.runs.mythic_plus_weekly_highest_level_runs">
-                  <td>
+                <h3 class="text-subtitle-1">Aktuelle Woche</h3>
+                <p class="text-center" v-if="element.runs.mythic_plus_weekly_highest_level_runs.length == 0"> - Noch keine Dungeons - </p>
+                <v-row v-for="run in element.runs.mythic_plus_weekly_highest_level_runs" no-gutters>
+                  <v-col>
                     {{ run.short_name }}
-                  </td>
-                  <td class="text-right">
+                  </v-col>
+                  <v-col class="text-right">
                     {{ run.mythic_level }}
-                  </td>
-                  <td>
+                  </v-col>
+                  <v-col>
                     +{{ run.num_keystone_upgrades }}
-                  </td>
-                </tr>
-              </table>
-  
+                  </v-col>
+                </v-row>
+
+              <h3 class="text-subtitle-1" v-if="element.showMore">Wertung</h3>
+              <RioRating v-if="element.showMore" :best="element.runs.mythic_plus_alternate_runs" :alternate="element.runs.mythic_plus_best_runs" ></RioRating>
+
             </v-card-text>
             <v-card-actions class="float-right">
               <v-btn icon="mdi-trash-can-outline" variant="plain" @click="remove(element)"></v-btn>
@@ -65,6 +72,7 @@
 
             
         </v-col>
+
       </template>
     </draggableComponent>
    
@@ -95,7 +103,7 @@ const loadRuns = async char => {
   const data = await $fetch(`/api/dungeons?name=${char.name}&realm=${char.realm}`)
   dungeons.value[slug] = data
   char["runs"] = data
-  save()
+  return char;
 }
 
 if (chars.value) {
@@ -111,9 +119,8 @@ chars.value?.map(loadRuns)
 
 
 const add = async () => {
-  const { valid } = await this.$refs.form.validate()
 
-  if (!valid) return
+
 
   if (realm.value == undefined 
   || realm.value == ""
@@ -128,11 +135,8 @@ const add = async () => {
     "name": name.value
   }
 
-  chars.value.push(char)
+  chars.value.push(await loadRuns(char))
 
-  loadRuns(char)
-
-  setItem(STORAGE_KEY, chars.value)
 }
 
 const save = () => {
@@ -143,7 +147,6 @@ const save = () => {
 const remove = (runToRemove, slugToRemove) => {
 
 
-  console.log("remove wirked", slugToRemove, runToRemove)
   const removeName = runToRemove.name.toLowerCase()
   const removeRealm = runToRemove.realm.toLowerCase()
 
@@ -157,7 +160,6 @@ const remove = (runToRemove, slugToRemove) => {
     const charName = character.name.toLowerCase()
     const charRealm = character.realm.toLowerCase()
 
-    console.log(removeName, removeRealm, charName, charRealm)
 
     return removeName == charName
   } )
@@ -173,13 +175,13 @@ const remove = (runToRemove, slugToRemove) => {
   })
   */
 
-  console.log(index)
+
   chars.value.splice(index,1)
   save()
 }
 
 const dismissVault = (char) => {
-  console.log(char)
+
   char["vaultDismissedForPeriod"] = euCurrentPeriod.value.period
   save()
 }
@@ -203,12 +205,25 @@ function setItem(item, value) {
 </script>
 <style scoped lang="scss">
 .v-card {
-  cursor: grab;
+  cursor: pointer;
+  &:hover {
+    animation: grabCursor 5000ms forwards;
+  }
+
   &-title {
     text-transform: capitalize;
   }
   .sortable-chosen {
-    cursor: grabbing;
+    cursor: grabbing;    
   }
+
+  @keyframes grabCursor {
+  0% {
+    cursor: pointer;
+  }
+  100% {
+    cursor: grab;
+  }
+}
 }
 </style>
