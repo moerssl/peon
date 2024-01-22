@@ -118,6 +118,7 @@ if (periods.value == null || new Date(euCurrentPeriod.value.end) < new Date()) {
 
 const loadAll = () => {
   chars.value?.map(loadRuns)
+  save()
 }
 
 loadAll();
