@@ -1,5 +1,3 @@
-import { usePeon } from '~/utils/peon';
-import bonuses from '~/public/bonuses.json'
 import axios from 'axios';
 
 
@@ -12,7 +10,7 @@ export default defineEventHandler(async (event) => {
     name: query.name?.toLowerCase() || "leyka", 
     realm: query.realm?.toLowerCase() || "ysera",
     region: query.region?.toLowerCase() || "eu",
-    fields: 'mythic_plus_weekly_highest_level_runs,mythic_plus_scores_by_season:current,mythic_plus_previous_weekly_highest_level_runs'
+    fields: 'mythic_plus_weekly_highest_level_runs,mythic_plus_scores_by_season:current,mythic_plus_previous_weekly_highest_level_runs,mythic_plus_best_runs,mythic_plus_alternate_runs'
 
   }
 

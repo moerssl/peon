@@ -1,16 +1,29 @@
 <template>
-    <v-row>
-      <v-col>
-        <v-text-field label="Realm" v-model="realm" @keydown.enter="add"></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field label="Name" v-model="name" @keydown.enter="add"></v-text-field>
-      </v-col>
-      <v-col  class="mt-2">
-        <v-btn @click="add">Hinzufügen</v-btn>
-      </v-col>
-    </v-row>
- 
+    <v-form ref="form">
+      <v-row>
+        <v-col>
+          <v-text-field label="Realm" 
+          v-model="realm" 
+          required 
+          @keydown.enter="add" 
+          aria-required="true"
+          :rules="[v => !!v || 'Der Realm wird benötigt.']"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field label="Name" 
+          v-model="name" 
+          required 
+          @keydown.enter="add" 
+          aria-required="true"
+          :rules="[v => !!v || 'Der Name wird benötigt.']"
+          ></v-text-field>
+        </v-col>
+        <v-col  class="mt-2">
+          <v-btn @click="add">Hinzufügen</v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
       <draggableComponent
       v-model="chars" 
       group="people" 
@@ -26,9 +39,8 @@
   
               {{ element.name }} 
               
-              <v-icon  class="text-subtitle-1" icon="mdi-treasure-chest-outline" v-if="element?.runs?.mythic_plus_previous_weekly_highest_level_runs?.length > 0"></v-icon>
+              <v-icon @click="dismissVault(element)" class="text-subtitle-1" icon="mdi-treasure-chest-outline" v-if="element?.runs?.mythic_plus_previous_weekly_highest_level_runs?.length > 0 && element?.vaultDismissedForPeriod != euCurrentPeriod.period"></v-icon>
               <span class="text-subtitle-2" v-if="element?.runs">&nbsp;({{ element.runs.mythic_plus_scores_by_season[0].scores.all }})</span>
-
           </v-card-title>
             <v-card-text v-if="element.runs != undefined && element.runs.mythic_plus_weekly_highest_level_runs != undefined">
               <table>
@@ -61,10 +73,20 @@
 import draggableComponent from 'vuedraggable';
 
 const STORAGE_KEY ="dungeon-chars"
+const PERIODS_KEY="periods"
 const realm = ref()
 const name = ref()
 const chars = ref(getItem(STORAGE_KEY))
+const periods = ref(getItem(PERIODS_KEY))
 const dungeons = ref({})
+
+const euCurrentPeriod = computed(() => {
+  if (periods.value == null) return null;
+
+  const eu = periods.value.filter(region => region.region == "eu")
+
+  return eu[0].current;
+})
 
 const loadRuns = async char => {
   if (char.realm == undefined || char.name == undefined) return
@@ -76,11 +98,27 @@ const loadRuns = async char => {
   save()
 }
 
+if (chars.value) {
+  chars.value = chars.value.filter(item => item != {} && item != undefined && item.name != undefined)
+}
 
-
+if (periods.value == null || new Date(euCurrentPeriod.value.end) < new Date()) {
+  periods.value = (await $fetch('/api/periods')).periods;
+  setItem(PERIODS_KEY, periods.value)
+}
 chars.value?.map(loadRuns)
 
-const add = () => {
+
+
+const add = async () => {
+  const { valid } = await this.$refs.form.validate()
+
+  if (!valid) return
+
+  if (realm.value == undefined 
+  || realm.value == ""
+  || name.value == undefined
+  || name.value == "") return
   if (chars.value == undefined) {
     chars.value = []
   }
@@ -137,6 +175,12 @@ const remove = (runToRemove, slugToRemove) => {
 
   console.log(index)
   chars.value.splice(index,1)
+  save()
+}
+
+const dismissVault = (char) => {
+  console.log(char)
+  char["vaultDismissedForPeriod"] = euCurrentPeriod.value.period
   save()
 }
 
