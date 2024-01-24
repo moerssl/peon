@@ -6,6 +6,11 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   // return query.name.toLowerCase()
   const peon = await usePeon()
+  const lang = query.lang.toLowerCase()
+  let locale = "de_DE"
+  if (lang == "en") {
+    locale = "en_US"
+  }
 
   const equipment = await peon.characterEquipment(
     { 
@@ -13,7 +18,7 @@ export default defineEventHandler(async (event) => {
       realm: query.realm?.toLowerCase() || "ysera",
       region: query.region?.toLowerCase() || "eu",
       namespace: "eu-profile",
-      locale: "en_US" 
+      locale
     })
   
 
@@ -23,6 +28,14 @@ export default defineEventHandler(async (event) => {
     region: query.region?.toLowerCase() || "eu",
     namespace: "eu-profile",
     locale: "en_US"
+  })
+
+  const translation =  await peon.characterProfile({ 
+    name: query.name?.toLowerCase() || "leyka", 
+    realm: query.realm?.toLowerCase() || "ysera",
+    region: query.region?.toLowerCase() || "eu",
+    namespace: "eu-profile",
+    locale
   })
 
 
@@ -41,5 +54,5 @@ equipment.data.equipped_items.forEach((item) => {
 });
 
 
-  return Object.assign(profile.data, equipment.data);
+  return Object.assign(profile.data, equipment.data, { translation: translation.data });
 })

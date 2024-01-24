@@ -81,6 +81,58 @@ const skelleton = ref({
   "TRINKET": [],
 
 })
+
+const headlines =  {
+  en: {
+  "HEAD": "Head",
+  "NECK": "Neck",
+  "SHOULDER": "Shoulder",
+  "SHIRT": "Shirt",
+  "CHEST": "Chest",
+  "WAIST": "Waist",
+  "LEGS": "Legs",
+  "FEET": "Feet",
+  "WRIST": "Wrist",
+  "HANDS": "Hands",
+  "FINGER_1": "Finger",
+  "FINGER_2": "Finger",
+  "TRINKET_1": "Trinket",
+  "TRINKET_2": "Trinket",
+  "BACK": "Back",
+  "MAIN_HAND": "Main Hand",
+  "WEAPON": "Weapon",
+  "TWOHWEAPON": "Two Hand Weapon",
+  "HOLDABLE": "Holdable / Offhand",
+  "TABARD": "Tabard",
+  "FINGER": "Finger",
+  "TRINKET": "Trinket",
+  },
+  de: {
+  "HEAD": "Kopf",
+  "NECK": "Halskette",
+  "SHOULDER": "Schulter",
+  "SHIRT": "Hemd",
+  "CHEST": "Brust",
+  "WAIST": "Gürtel",
+  "LEGS": "Beine",
+  "FEET": "Füße",
+  "WRIST": "Handgelenke",
+  "HANDS": "Hände",
+  "FINGER_1": "Ring",
+  "FINGER_2": "Ring",
+  "TRINKET_1": "Schmuckstück",
+  "TRINKET_2": "Schmuckstück",
+  "BACK": "Rücken",
+  "MAIN_HAND": "Hauptwaffe",
+  "WEAPON": "Waffe",
+  "TWOHWEAPON": "Zweihandwaffe",
+  "HOLDABLE": "Schildhand",
+  "TABARD": "Wappenrock",
+  "FINGER": "Ring",
+  "TRINKET": "Schmuckstück",
+  }
+}
+
 const keysToExclude = ["FINGER_1", "FINGER_2", "TRINKET_1", "TRINKET_2", "CLOAK", "ROBE", "HAND", "SHIRT", "TABARD"]
 const displaySkeletton = computed(() => {
   return Object.entries(skelleton.value).reduce((acc, [key, value]) => {
@@ -98,7 +150,7 @@ const loadBis = async (playedClass, spec) => {
 
       clearGear(skelleton)
       //const bis = await useFetch(`/api/bis?playedclass=${playedClass.replace(" ", "-")}&spec=${spec.replace(" ", "-")}`)
-      const bis = await useFetch(`/gear/${playedClass.toLowerCase().replace(" ", "-")}_${spec.toLowerCase().replace(" ", "-")}.json`)
+      const bis = await useFetch(`/gear/${lang.value}/${playedClass.toLowerCase().replace(" ", "-")}_${spec.toLowerCase().replace(" ", "-")}.json`)
 
       bisGear.value = bis.data
       bis.data.value?.map(async gearItem => mapGear(gearItem, skelleton))
@@ -118,7 +170,7 @@ const reloadEquipmentJson = async() => {
   fetching.value = true
   progessStep.value = "Rufe Character-Daten ab"
   try {
-      const res = await useFetch(`/api/char?name=${charName.value}&realm=${realm.value}`)
+      const res = await useFetch(`/api/char?name=${charName.value}&realm=${realm.value}&lang=${lang.value}`)
       // eqJson.value = res.data.value
       charProfile.value = res.data.value;
       res.data.value?.equipped_items?.map(async item => {
@@ -202,6 +254,8 @@ const hasBis = (equiped) => {
   return index > -1 ? "#00cc0033" : ""
 }
 
+const lang = ref("de")
+
 /*
 await reloadEquipmentJson()
 await loadBis()
@@ -214,7 +268,7 @@ await loadBis()
       <v-col cols="12" lg="3">
         
         <h2 v-if="charProfile != undefined">{{ charProfile?.name }} ({{ charProfile.average_item_level }})</h2>
-        <h3 v-if="charProfile">{{ charProfile?.character_class?.name }} {{ charProfile?.active_spec?.name }}</h3>
+        <h3 v-if="charProfile">{{ charProfile?.translation.character_class?.name }} {{ charProfile?.translation.active_spec?.name }}</h3>
       </v-col>
 
       <v-col cols="12" lg="3" class="mt-5 text-center" >
@@ -227,7 +281,7 @@ await loadBis()
         </div>
       </v-col>
       <v-col cols="12" lg="6" class="d-flex ">
-        <v-row class="float-right">
+        <v-row justify="space-between">
         
           <v-col cols="6" lg="3" class="">
             <v-text-field v-model="realm" label="Realm" @keyup.enter="reloadEquipmentJson"></v-text-field>
@@ -239,7 +293,19 @@ await loadBis()
           </v-col>
 
           <v-col cols="12" lg="auto" class="d-flex text-center text-lg-right">
-            <v-btn @click="reloadEquipmentJson" class="mt-lg-2 w-full" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Load Equipment</v-btn>
+            <v-btn @click="reloadEquipmentJson" class="mt-lg-2 w-full" :append-icon="fetching ? 'mdi-account-convert' : 'mdi-account-search'">Vergleichen</v-btn>
+          </v-col>
+          <v-col  cols="12" lg="auto" class="no-wrap">
+            <v-switch
+              v-model="lang"
+              hide-details
+              true-value="de"
+              false-value="en"
+              
+              :label="lang == 'en' ? 'English' : 'Deutsch'"
+              @update:model-value="reloadEquipmentJson"
+            ></v-switch>
+            
           </v-col>
         </v-row>
       </v-col>
@@ -253,7 +319,7 @@ await loadBis()
 
       <v-col cols="12" lg="2" v-for="slot, name in displaySkeletton" >
         <v-card :color="hasBis(char[name])">
-          <v-card-title>{{ name }} <span v-if="char[name]">({{ char[name]?.level.value }})</span></v-card-title>
+          <v-card-title>{{ headlines[lang][name] }} <span v-if="char[name]">({{ char[name]?.level.value }})</span></v-card-title>
           <v-card-text>
             <hr class="ma-5" />
 
@@ -265,11 +331,13 @@ await loadBis()
               </i>
             </p>
             <p v-else-if="name == 'FINGER'">
-              {{ char['FINGER_1']?.name }} ({{ char['FINGER_1']?.level.value }})<br >
-              <i v-if="char['FINGER_1']?.upgrade">
-                {{ char['FINGER_1']?.upgrade.name }} {{  char['FINGER_1']?.upgrade.level }} / {{ char['FINGER_1']?.upgrade.max }} 
-                <br>
-              </i>
+          
+                {{ char['FINGER_1']?.name }} ({{ char['FINGER_1']?.level.value }})<br >
+                <i v-if="char['FINGER_1']?.upgrade">
+                  {{ char['FINGER_1']?.upgrade.name }} {{  char['FINGER_1']?.upgrade.level }} / {{ char['FINGER_1']?.upgrade.max }} 
+                  <br>
+                </i>
+      
               {{ char['FINGER_2']?.name }} ({{ char['FINGER_2']?.level.value }})<br>
               <i v-if="char['FINGER_2']?.upgrade">
                 {{ char['FINGER_2']?.upgrade.name }} {{  char['FINGER_2']?.upgrade.level }} / {{ char['FINGER_2']?.upgrade.max }} 

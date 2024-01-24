@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
         specName
       })
 
-      const bis = await $fetch(`/api/bis?playedclass=${playedClass}&spec=${spec.name}`)
+      //  $fetch(`/api/bis?playedclass=${playedClass}&spec=${spec.name}&force=true`)
 
     })
 

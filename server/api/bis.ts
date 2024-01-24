@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   const lang = "--lang=en-US,en"
   // const lang = "--lang=de-DE,de"
  
-  res.setHeader('Cache-Control', `max-age=${maxage} s-maxage=${maxage}`);
+  //res.setHeader('Cache-Control', `max-age=${maxage} s-maxage=${maxage}`);
 
 
 
@@ -21,14 +21,22 @@ export default defineEventHandler(async (event) => {
 
 
     const query = getQuery(event)
+    const langSlot = query.langslot || "en-US";
+    const folder = langSlot.substring(0,2)
+    const browserLang = `--lang=${langSlot},${folder}`
+    let wowHeadLang = `${folder}/`;
+    if (folder == "en") {
+      wowHeadLang = "";
+    }
 
     const playedClass = query.playedclass.toLowerCase().replace(" ", "-").replace("%20", "-")
     const spec = query.spec.toLowerCase().replace("%20", "-").replace(" ", "-")
+    const force = query.force;
 
-    const jsonFileName = `${playedClass}_${spec}.json`
+    const jsonFileName = `${folder}/${playedClass}_${spec}.json`
     const storedBisGear = await readJson(jsonFileName)
 
-    if (storedBisGear != undefined) {
+    if (storedBisGear != undefined && !force) {
       return storedBisGear;
     }
 
@@ -45,7 +53,7 @@ export default defineEventHandler(async (event) => {
  
   
     // Load the target website
-    await page.goto(`https://www.wowhead.com/guide/classes/${playedClass}/${spec}/bis-gear`, { waitUntil: 'networkidle0' });
+    await page.goto(`https://www.wowhead.com/${wowHeadLang}guide/classes/${playedClass}/${spec}/bis-gear`, { waitUntil: 'networkidle0' });
   
     // Wait for the page to load and execute JavaScript
     // await page.waitForSelector('.grid');

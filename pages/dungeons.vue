@@ -28,7 +28,8 @@
       <draggableComponent
       v-model="chars" 
       group="people" 
-
+      delay="500"
+      delayOnTouchOnly="true"
       item-key="name"
       class="v-row"
       @end="save"
@@ -43,7 +44,7 @@
   
               {{ element.name }}
               
-              <v-icon @click="dismissVault(element)" class="text-subtitle-1" icon="mdi-treasure-chest-outline" v-if="element?.runs?.mythic_plus_previous_weekly_highest_level_runs?.length > 0 && element?.vaultDismissedForPeriod != euCurrentPeriod.period"></v-icon>
+              <v-icon @click.stop="dismissVault(element)" class="text-subtitle-1" icon="mdi-treasure-chest-outline" v-if="element?.runs?.mythic_plus_previous_weekly_highest_level_runs?.length > 0 && element?.vaultDismissedForPeriod != euCurrentPeriod.period"></v-icon>
               <span class="text-subtitle-2" v-if="element?.runs">&nbsp;({{ element.runs.mythic_plus_scores_by_season[0].scores.all }})</span>
               <v-icon :icon="element.showMore ? 'mdi-chevron-down' : 'mdi-chevron-left'" class="float-right mt-2" size="small"></v-icon>
           </v-card-title>
@@ -120,8 +121,8 @@ if (periods.value == null || new Date(euCurrentPeriod.value.end) < new Date()) {
   setItem(PERIODS_KEY, periods.value)
 }
 
-const loadAll = () => {
-  chars.value?.map(loadRuns)
+const loadAll = async () => {
+  await chars.value?.map(loadRuns)
   save()
 }
 
