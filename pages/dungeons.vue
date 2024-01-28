@@ -1,4 +1,15 @@
 <template>
+    <v-row>
+      <v-col v-for="af in affixes?.affix_details" :key="af.id" :to="af.wowhead_url" :title="af.name">
+       <v-card :href="af.wowhead_url" target="affix">
+          <v-card-text>
+            <h3 class="text-subtitle-1">{{ af.name }}</h3>
+            <p>{{ af.description }}</p>
+          </v-card-text>
+          
+       </v-card>
+      </v-col>
+    </v-row>
     <v-form ref="form">
       <v-row>
         <v-col>
@@ -25,6 +36,8 @@
         </v-col>
       </v-row>
     </v-form>
+    
+
       <draggableComponent
       v-model="chars" 
       group="people" 
@@ -51,7 +64,7 @@
             <v-card-text v-if="element.runs != undefined && element.runs.mythic_plus_weekly_highest_level_runs != undefined">
                 <h3 class="text-subtitle-1">Aktuelle Woche</h3>
                 <p class="text-center" v-if="element.runs.mythic_plus_weekly_highest_level_runs.length == 0"> - Noch keine Dungeons - </p>
-                <v-row v-for="run in element.runs.mythic_plus_weekly_highest_level_runs" no-gutters>
+                <v-row v-for="run in element.runs.mythic_plus_weekly_highest_level_runs" no-gutters :key="run.short_name">
                   <v-col>
                     {{ run.short_name }}
                   </v-col>
@@ -89,6 +102,7 @@ const name = ref()
 const chars = ref(getItem(STORAGE_KEY))
 const periods = ref(getItem(PERIODS_KEY))
 const dungeons = ref({})
+const affixes = ref()
 
 const save = () => {
   setItem(STORAGE_KEY, chars.value)
@@ -211,6 +225,14 @@ function setItem(item, value) {
   } else {
     return false  } 
 }
+
+const loadAffix = async () => {
+  //$fetch("/api/affix").then(data => affixes.value = data)
+
+  affixes.value = await $fetch("/api/affix");
+}
+
+loadAffix()
 </script>
 <style scoped lang="scss">
 .v-card {
