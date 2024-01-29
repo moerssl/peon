@@ -77,7 +77,7 @@
                 </v-row>
 
               <h3 class="text-subtitle-1" v-if="element.showMore">Wertung</h3>
-              <RioRating v-if="element.showMore" :best="element.runs.mythic_plus_alternate_runs" :alternate="element.runs.mythic_plus_best_runs" ></RioRating>
+              <RioRating :weekaffix="affixes?.affix_details[0].id" v-if="element.showMore" :best="element.runs.mythic_plus_alternate_runs" :alternate="element.runs.mythic_plus_best_runs" ></RioRating>
 
             </v-card-text>
             <v-card-actions class="float-right">

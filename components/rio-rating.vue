@@ -1,20 +1,21 @@
 <template>
   <v-row>
     <v-col></v-col>
-    <v-col class="d-flex justify-space-between pl-10">
+    <v-col :class="{ bold: props.weekaffix == 10}" class="text-center">
       Verstärkt
     </v-col>
-    <v-col>
+    <v-col :class="{ bold: props.weekaffix != 10}" class="text-center">
       Tyrannisch
     </v-col>
   </v-row>
   <v-row v-for="(dungeon, key) in rioTable" no-gutters justify="space-between">
     <v-col> {{ key }}</v-col>
-    <v-col v-for="affix in dungeon" class="d-flex justify-space-between pl-10 text-right">
+    <v-col v-for="affix in dungeon" class="d-flex justify-space-around ml-2">
       <span v-if="affix.mythic_level" class="text-right d-block">
       {{ affix.mythic_level }} +{{ affix.num_keystone_upgrades }}
       </span>
-      <sub  class="text-right">{{ affix.score }}</sub>
+      <span v-else>-</span>
+      <sub  v-if="affix.score" class="text-right">{{ affix.score }}</sub>
 
     </v-col>
 
@@ -22,7 +23,7 @@
 
 </template>
 <script setup>
-  const props = defineProps(["best", "alternate"])
+  const props = defineProps(["best", "alternate","weekaffix"])
 
   const ratedRuns = computed(() => {
    const best = props.best || []
@@ -49,3 +50,8 @@
     return ratings;
   })
 </script>
+<style scoped>
+.bold {
+  font-weight: bold;
+}
+</style>
