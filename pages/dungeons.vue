@@ -51,8 +51,8 @@
       <template #item="{element}">
        
 
-        <v-col cols="12" :lg="element.showMore ? 3 : 2"  @click="element.showMore = !element.showMore; save()" ><!-- /v-col>v-for="value in chars" -->
-          <v-card class="pa-2">
+        <v-col cols="12" :lg="element.showMore ? 3 : 2"  @click="element.showMore = !element.showMore; save()" :id="'char-' + element.name+'-'+element.realm"><!-- /v-col>v-for="value in chars" -->
+          <v-card class="pa-2" :class="{ char: element.cheese}">
             <v-card-title>
   
               {{ element.name }}
@@ -81,6 +81,7 @@
 
             </v-card-text>
             <v-card-actions class="float-right">
+              <v-btn icon="mdi-monitor-screenshot" variant="plain" @click.stop="screenshot('char-' + element.name+'-'+element.realm, element)"></v-btn>
               <v-btn icon="mdi-trash-can-outline" variant="plain" @click="remove(element)"></v-btn>
             </v-card-actions>
           </v-card>
@@ -94,6 +95,7 @@
 </template>
 <script setup>
 import draggableComponent from 'vuedraggable';
+import html2canvas from 'html2canvas';
 
 const STORAGE_KEY ="dungeon-chars"
 const PERIODS_KEY="periods"
@@ -232,9 +234,34 @@ const loadAffix = async () => {
   affixes.value = await $fetch("/api/affix");
 }
 
+const screenshot = (componentId, element) => {
+  element.cheese = true
+
+  setTimeout(() => {
+    const componentElement = document.querySelector('#'+componentId);
+    html2canvas(componentElement).then(canvas => {
+      canvas.toBlob(blob => {
+        navigator.clipboard.write([
+          new ClipboardItem({
+            'image/png': blob
+          })
+        ]);
+      });
+
+      element.cheese = false
+    });
+  }, 750)
+
+
+  
+}
+
 loadAffix()
 </script>
 <style scoped lang="scss">
+.char, .char * {
+  box-shadow: unset !important;
+}
 .v-card {
   cursor: pointer;
   &:hover {
