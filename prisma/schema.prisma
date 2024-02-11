@@ -1,0 +1,59 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Item {
+  id            BigInt      @id @default(autoincrement())
+  itemId        BigInt?
+  petSpeciesId  BigInt?
+  quantity      Float
+  marketValue   BigInt
+  avgSalePrice  BigInt
+  saleRate      Float
+  soldPerDay    Float
+  historical    BigInt
+}
+
+model ItemHistory {
+  id         BigInt      @id @default(autoincrement())
+  itemId     BigInt?
+  petSpeciesId BigInt?
+  quantity   Float
+  marketValue BigInt
+  avgSalePrice BigInt
+  saleRate   Float
+  soldPerDay Float
+  historical BigInt
+  createdAt  DateTime @default(now())
+}
+
+model Pet {
+  id            BigInt      @id @default(autoincrement())
+  itemId        BigInt?
+  petSpeciesId  BigInt?
+  quantity      Float
+  marketValue   BigInt
+  avgSalePrice  BigInt
+  saleRate      Float
+  soldPerDay    Float
+  historical    BigInt
+}
+
+model PetHistory {
+  id         BigInt      @id @default(autoincrement())
+  itemId     BigInt?
+  petSpeciesId BigInt?
+  quantity   Float
+  marketValue BigInt
+  avgSalePrice BigInt
+  saleRate   Float
+  soldPerDay Float
+  historical BigInt
+  createdAt  DateTime @default(now())
+}

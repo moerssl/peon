@@ -7,12 +7,13 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "npx prisma generate & nuxt prepare"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/jsdom": "^21.1.6",
-    "nuxt": "^3.8.2",
+    "nuxt": "^3.10.1",
+    "nuxt-cron": "^1.4.4",
     "sass": "^1.69.7",
     "vite-plugin-vuetify": "^1.0.2",
     "vue": "^3.3.8",
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.3.67",
+    "@prisma/client": "^5.9.1",
     "@types/simple-oauth2": "^5.0.7",
     "@vercel/analytics": "^1.1.1",
     "axios": "^1.6.2",
@@ -31,6 +33,7 @@
     "localtunnel": "^2.0.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
+    "prisma": "^5.9.1",
     "puppeteer": "^21.5.2",
     "simple-oauth2": "^5.0.0",
     "vuedraggable": "^4.1.0"

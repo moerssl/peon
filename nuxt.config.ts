@@ -13,8 +13,9 @@ export default defineNuxtConfig({
     transpile: ['vuetify'],
   },
   runtimeConfig: {
-    key: 'e055e01726574bfc90f01595f1d16c65',
-    secret: 'Fd2R9dMyKc9UShNzkmQavkzpx1c1ZrKl',
+    key: '',
+    secret: '',
+    tsm: ''
   },
   modules: [
     (_options, nuxt) => {
