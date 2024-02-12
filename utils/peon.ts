@@ -1,8 +1,8 @@
 import { wow } from 'blizzard.js';
-import { TradeSkillMasterAPI } from '~/utils/TradeSkillMasterAPI'
+import { TradeSkillMasterApi } from '~/utils/TradeSkillMasterApi'
 
 let peonInstance: wow.WoWClient[] = {};
-let tsmInstance: TradeSkillMasterAPI;
+let tsmInstance: TradeSkillMasterApi;
 const runtimeConfig = useRuntimeConfig()
 
 export const usePeon = async (locale='en_US') => {
@@ -24,7 +24,7 @@ export const usePeon = async (locale='en_US') => {
 
 export const useTsm = () => {
   if (tsmInstance == undefined) {
-    tsmInstance = new TradeSkillMasterAPI(runtimeConfig.tsm)
+    tsmInstance = new TradeSkillMasterApi(runtimeConfig.tsm)
   }
 
   return tsmInstance;

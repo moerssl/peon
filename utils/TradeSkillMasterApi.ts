@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class TradeSkillMasterAPI {
+export class TradeSkillMasterApi {
   constructor(apiKey) {
     this.apiKey = apiKey;
     this.accessToken = null;
