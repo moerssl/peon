@@ -1,14 +1,15 @@
 //import { createInstance } from "~/utils/tradeskillmaster";
 import { useTsm } from '~/utils/peon';
-import {AhImporter } from '~/utils/AhImporter';
+import { AhImporter } from '~/utils/AhImporter';
 
 export default defineEventHandler(async (event) => { 
-  const instance = useTsm()
+  const tsm = useTsm();
   const ah = new AhImporter();
-  
-  const result = await instance.getCommodities(2)
-  ah.importData(result)
 
+  const resultPromise = tsm.getCommodities(2);
+  const importPromise = resultPromise.then(result => ah.importData(result));
 
-  return result;
-})
+  //await Promise.all([resultPromise, importPromise]);
+  setResponseStatus(event,202, 'Accepted')
+  return; // HTTP Code accepted
+});
