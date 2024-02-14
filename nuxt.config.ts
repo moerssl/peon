@@ -24,7 +24,7 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }))
       })
     },
-    //...
+    'nuxt-cron'
   ],
   vite: {
     vue: {
@@ -33,4 +33,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  cron: {
+    runOnInit: false,
+    timeZone: 'Europe/Berlin',
+    jobsDir: 'tm'
+  }
 })
