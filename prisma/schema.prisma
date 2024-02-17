@@ -18,7 +18,7 @@ model Item {
   saleRate      Float
   soldPerDay    Float
   historical    BigInt
-  regionId      Int
+  regionId      Int?
 }
 
 model ItemHistory {
@@ -31,7 +31,7 @@ model ItemHistory {
   saleRate   Float
   soldPerDay Float
   historical BigInt
-  regionId      Int
+  regionId      Int?
   createdAt  DateTime @default(now())
 }
 
@@ -45,7 +45,7 @@ model Pet {
   saleRate      Float
   soldPerDay    Float
   historical    BigInt
-  regionId      Int
+  regionId      Int?
 }
 
 model PetHistory {
@@ -58,6 +58,6 @@ model PetHistory {
   saleRate   Float
   soldPerDay Float
   historical BigInt
-  regionId      Int
+  regionId      Int?
   createdAt  DateTime @default(now())
 }
