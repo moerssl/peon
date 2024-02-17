@@ -32,6 +32,15 @@ model ItemHistory {
   createdAt  DateTime @default(now())
 }
 
+model commodityAuction {
+  id          Int       @id @default(autoincrement())
+  itemsId     Int
+  quantity    Int
+  unitPrice   Int
+  createdAt   DateTime  @default(now())
+  lastUpdated DateTime  @updatedAt
+}
+
 model Pet {
   petSpeciesId  BigInt @id
   quantity      Float
