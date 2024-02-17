@@ -9,9 +9,7 @@ datasource db {
 }
 
 model Item {
-  id            BigInt      @id @default(autoincrement())
-  itemId        BigInt?
-  petSpeciesId  BigInt?
+  itemId        BigInt      @id
   quantity      Float
   marketValue   BigInt
   avgSalePrice  BigInt
@@ -23,8 +21,7 @@ model Item {
 
 model ItemHistory {
   id         BigInt      @id @default(autoincrement())
-  itemId     BigInt?
-  petSpeciesId BigInt?
+  itemId     BigInt 
   quantity   Float
   marketValue BigInt
   avgSalePrice BigInt
@@ -36,9 +33,7 @@ model ItemHistory {
 }
 
 model Pet {
-  id            BigInt      @id @default(autoincrement())
-  itemId        BigInt?
-  petSpeciesId  BigInt?
+  petSpeciesId  BigInt @id
   quantity      Float
   marketValue   BigInt
   avgSalePrice  BigInt
@@ -50,7 +45,6 @@ model Pet {
 
 model PetHistory {
   id         BigInt      @id @default(autoincrement())
-  itemId     BigInt?
   petSpeciesId BigInt?
   quantity   Float
   marketValue BigInt
