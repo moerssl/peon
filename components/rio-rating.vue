@@ -8,14 +8,17 @@
       Tyrannisch
     </v-col>
   </v-row>
-  <v-row v-for="(dungeon, key) in rioTable" no-gutters justify="space-between">
+  <v-row v-for="(dungeon, key) in rioTable" no-gutters justify="space-between" class="highlight">
     <v-col> {{ key }}</v-col>
-    <v-col v-for="affix in dungeon" class="d-flex justify-space-around ml-2">
-      <span v-if="affix.mythic_level" class="text-right d-block">
-      {{ affix.mythic_level }} +{{ affix.num_keystone_upgrades }}
-      </span>
-      <span v-else>-</span>
-      <sub  v-if="affix.score" class="text-right">{{ affix.score }}</sub>
+    <v-col v-for="affix in dungeon" class="d-flex">
+      <v-row no-gutters class="pr-5 pl-5">
+        <v-col v-if="affix.mythic_level" class="text-right d-block">
+        {{ affix.mythic_level }}&nbsp;+{{ affix.num_keystone_upgrades }}
+        </v-col>
+        <v-col v-else>-</v-col>
+        <v-col v-if="affix.score" class="text-right score">{{ affix.score }}</v-col>
+      </v-row>
+      
 
     </v-col>
 
@@ -53,5 +56,11 @@
 <style scoped>
 .bold {
   font-weight: bold;
+}
+.highlight:hover {
+  background-color: #efefef;
+}
+.score {
+  font-size: 0.8em;
 }
 </style>
