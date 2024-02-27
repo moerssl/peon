@@ -1,0 +1,158 @@
+[
+  {
+  "name": "FAKE Arclight Capacitor --- Quality 1",
+  "item_id": 198195,
+  "avg_price": 226,
+  "sales_per_day": 1204,
+  "sales_per_hour": 50.17,
+  "flip_price_levels": [
+  {
+  "listing_price_level": {
+  "from_price_level": 170,
+  "to_price_level": 199
+  },
+  "total_price": 340
+  }
+  ],
+  "max_sane_flip_level": {
+  "listing_price_level": {
+  "from_price_level": 199,
+  "to_price_level": 199
+  },
+  "cost_to_level": 340,
+  "cost_to_next_level": 10489
+  },
+  "price_reset": false,
+  "price_reset_info": {}
+  },
+  {
+  "name": "Ace of Air",
+  "item_id": 194801,
+  "avg_price": 1121,
+  "sales_per_day": 99,
+  "sales_per_hour": 4.12,
+  "flip_price_levels": [
+  {
+  "listing_price_level": {
+  "from_price_level": 1600.81,
+  "to_price_level": 1699.81
+  },
+  "total_price": 1600
+  }
+  ],
+  "max_sane_flip_level": {
+  "listing_price_level": {
+  "from_price_level": 1699.81,
+  "to_price_level": 1699.81
+  },
+  "cost_to_level": 1600,
+  "cost_to_next_level": 13499
+  },
+  "price_reset": false,
+  "price_reset_info": {}
+  },
+  {
+  "name": "Tinker: Supercollide-O-Tron --- Quality 3",
+  "item_id": 198303,
+  "avg_price": 1971,
+  "sales_per_day": 65,
+  "sales_per_hour": 2.71,
+  "flip_price_levels": [
+  {
+  "listing_price_level": {
+  "from_price_level": 1699.99,
+  "to_price_level": 1899.99
+  },
+  "total_price": 1699
+  }
+  ],
+  "max_sane_flip_level": {
+  "listing_price_level": {
+  "from_price_level": 1899.99,
+  "to_price_level": 1900
+  },
+  "cost_to_level": 5499,
+  "cost_to_next_level": 11199
+  },
+  "price_reset": false,
+  "price_reset_info": {}
+  },
+  {
+  "name": "Popfizz Punch",
+  "item_id": 197737,
+  "avg_price": 384,
+  "sales_per_day": 46,
+  "sales_per_hour": 1.92,
+  "flip_price_levels": [
+  {
+  "listing_price_level": {
+  "from_price_level": 1042.16,
+  "to_price_level": 1152.9036
+  },
+  "total_price": 1042
+  }
+  ],
+  "max_sane_flip_level": {
+  "listing_price_level": {
+  "from_price_level": 2222.16,
+  "to_price_level": 2222.16
+  },
+  "cost_to_level": 1042,
+  "cost_to_next_level": 7708
+  },
+  "price_reset": false,
+  "price_reset_info": {}
+  },
+  {
+  "name": "Stormy Malygite --- Quality 1",
+  "item_id": 192940,
+  "avg_price": 773,
+  "sales_per_day": 42,
+  "sales_per_hour": 1.75,
+  "flip_price_levels": [
+  {
+  "listing_price_level": {
+  "from_price_level": 1185.23,
+  "to_price_level": 1276.83
+  },
+  "total_price": 1185
+  }
+  ],
+  "max_sane_flip_level": {
+  "listing_price_level": {
+  "from_price_level": 1276.83,
+  "to_price_level": 1276.83
+  },
+  "cost_to_level": 1185,
+  "cost_to_next_level": 16507
+  },
+  "price_reset": false,
+  "price_reset_info": {}
+  },
+  {
+  "name": "FAKE Enchant Weapon - Spore Tender --- Quality 2",
+  "item_id": 204614,
+  "avg_price": 690,
+  "sales_per_day": 40,
+  "sales_per_hour": 1.67,
+  "flip_price_levels": [
+  {
+  "listing_price_level": {
+  "from_price_level": 200,
+  "to_price_level": 700.56
+  },
+  "total_price": 800
+  }
+  ],
+  "max_sane_flip_level": {
+  "listing_price_level": {
+  "from_price_level": 700.56,
+  "to_price_level": 700.56
+  },
+  "cost_to_level": 800,
+  "cost_to_next_level": 4302
+  },
+  "price_reset": false,
+  "price_reset_info": {}
+  }
+  ]
