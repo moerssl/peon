@@ -16,7 +16,8 @@ export const saveJson = (content, filename) => {
       return "Loift"
     });
   } catch (error) {
-      
+      console.error(error)
+      return error
   }
 }
 
