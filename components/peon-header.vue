@@ -9,8 +9,8 @@
         </v-col>
         <v-spacer></v-spacer>
         <v-col class="text-right">
-          <NuxtLink to="/"> Gear </NuxtLink>
-          <NuxtLink class="ml-5" to="/dungeons"> Dungeons </NuxtLink>
+          <NuxtLink to="/gear"> Gear </NuxtLink>
+          <NuxtLink class="ml-5" to="/"> Dungeons </NuxtLink>
           <theme-switch class="ml-5"></theme-switch>
         </v-col>
       </v-row>

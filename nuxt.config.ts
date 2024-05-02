@@ -12,6 +12,16 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
+  hooks: {
+    'pages:extend' (pages) {
+      // add a route
+      pages.push({
+        name: 'gear',
+        path: '/gear',
+        file: '~/pages/gear/[realm]/[char]/index.vue'
+      })
+  }},
+  ssr: false,
   runtimeConfig: {
     key: '',
     secret: '',
